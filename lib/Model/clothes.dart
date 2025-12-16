@@ -6,6 +6,6 @@ class Clothes {
 
 static List<Clothes> samples = 
   [
-    Clothes('assets/images/juice.webp', 'Sweet Thai basil smash cocktail', 'A refreshing cocktail made with Thai basil, lime juice, and a hint of sweetness.'), 
+    Clothes('asset/images/uniqlo-kaws-warhol-coach-jacket-black-474138-1.jpg', 'Uniqlo Clothes', 'Uniqlo KAWS + Warhol Coach Jacket Black-474138-1.'), 
   ];
 }

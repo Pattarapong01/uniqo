@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:uniqo/Model/clothes.dart';
+import 'package:uniqo/clothes-detail.dart';
+
 
 void main() {
-  runApp(const MyApp());
+  runApp(const ClothesApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
+class ClothesApp extends StatelessWidget {
+  const ClothesApp({super.key});
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -28,9 +30,10 @@ class MyApp extends StatelessWidget {
         //
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
-        colorScheme: .fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Uniqlo Shop'),
+
     );
   }
 }
@@ -54,69 +57,55 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
-      appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
-          mainAxisAlignment: .center,
-          children: [
-            const Text('You have pushed the button this many times:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
+      appBar: AppBar(title: Text(widget.title)),
+      body: SafeArea(
+        child: Container(
+          child: ListView.builder(
+            itemBuilder: (BuildContext context, int index) {
+              return GestureDetector(
+                onTap: () {
+                  print('You tapped on ${Clothes.samples[index].imageLabel}');
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return ClothesDetail(clothes: Clothes.samples[index]);
+                      },
+                    ),
+                  );
+                },
+                child: buildclothesCard(Clothes.samples[index]),
+              );
+            },
+            itemCount: Clothes.samples.length,
+          ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
       ),
     );
   }
 }
+
+Widget buildclothesCard(Clothes clothes) {
+  var card = Card(
+    elevation: 2.0,
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+    child: Column(
+      children: <Widget>[
+        Text(
+          clothes.imageLabel,
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+        SizedBox(height: 14),
+        Image(image: AssetImage(clothes.imageUrl)),
+        const SizedBox(height: 14),
+        Text('Choose me',
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w300)),
+      ],
+    ),
+  );
+  return Padding(padding: const EdgeInsets.all(8.0), child: card);
+}
+

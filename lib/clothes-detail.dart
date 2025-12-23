@@ -57,9 +57,11 @@ class ClothesDetailState extends State<ClothesDetail> {
 
                   return Padding(
                     padding: const EdgeInsets.symmetric(vertical: 4),
-                    child: Text(
-                      ' Items = $totalQuantity Price = $totalPrice ${item.unit}',
-                      style: GoogleFonts.lato(fontWeight: FontWeight.bold),
+                    child: Center(
+                      child: Text(
+                        ' Items = $totalQuantity Price = $totalPrice ${item.unit}',
+                        style: GoogleFonts.lato(fontWeight: FontWeight.bold),
+                      ),
                     ),
                   );
                 },
